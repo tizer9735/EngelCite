@@ -1,0 +1,52 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        {% for card in flashcards %}
+        <div class="flashcard">
+            <h3>{{ card.word }}</h3>
+            <div class="translation" style="display: none;">
+                <p><strong>Translation:</strong> {{ card.translation }}</p>
+                {% if card.example_usage %}
+                <p><strong>Examlpe:</strong> {{ card.example_usage }}</p>
+                {% endif %}
+            </div>
+
+            <button class="btn btn-info show-translation">Show translation</button>
+
+            <div class="knowledge-level">
+                <p>I know this word at:</p>
+                <form method="post" action="{% url 'update_knowledge' card.pk %}">
+                    {% csrf_token %}
+                    <div class="btn-group">
+                        {% for i in "12345" %}
+                        <button type="submit" name="knowledge_level" value="{{ i }}"
+                                class="knowledge-level-btn
+                                       {% if card.knowledge_level >= forloop.counter %}bg-success text-white{% else %}bg-light{% endif %}">
+                            {{ i }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.show-translation').forEach(button => {
+    button.addEventListener('click', function() {
+        const translationDiv = this.previousElementSibling;
+        if (translationDiv.style.display === 'none') {
+            translationDiv.style.display = 'block';
+            this.textContent = 'Hide Translation';
+        } else {
+            translationDiv.style.display = 'none';
+            this.textContent = 'Show Translation';
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>All Flashcards</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Word</th>
+                    <th>Translate</th>
+                    <th>Example</th>
+                    <th>Level of knowledge</th>
+                    <th>Date of creation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in flashcards %}
+                <tr>
+                    <td>{{ card.word }}</td>
+                    <td>{{ card.translation }}</td>
+                    <td>{{ card.example_usage|default:"-" }}</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"
+                                 style="width: {{  card.knowledge_level|floatformat:0|add:"0"}}multiply:20 "
+                                 aria-valuenow="{{ card.knowledge_level|floatformat:0|add:"0"}}multiply:20 "
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                {{ card.knowledge_level }}/5
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ card.created_at|date:"Y-m-d" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'flashcards/pagination.html' %}
+    </div>
+</div>
+{% endblock %}

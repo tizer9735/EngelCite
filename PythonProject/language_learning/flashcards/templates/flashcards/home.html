@@ -1,0 +1,17 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="flashcard text-center">
+            <h1>Let's learn words with flashcards!</h1>
+            <p class="lead">Remember and repeat</p>
+
+            <div class="mt-4">
+                <a href="{% url 'add_flashcard' %}" class="btn btn-primary btn-lg">Add new flashcard</a>
+                <a href="{% url 'practice' %}" class="btn btn-success btn-lg">Start practice</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
